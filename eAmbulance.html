@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eAmbulance - Emergency Medical Services</title>
+    
+    <!-- Google Fonts - Enhanced Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Enhanced Icon Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Advanced Animation Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <!-- Particles.js for Background Effects -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="eAmbulance.css">
+
+    <style>
+        /* Critical CSS for initial loading */
+        :root {
+            /* Enhanced color system with multiple theme options */
+            --primary-50: #fef2f2;
+            --primary-100: #fee2e2;
+            --primary-200: #fecaca;
+            --primary-300: #fca5a5;
+            --primary-400: #f87171;
+            --primary-500: #ef4444;
+            --primary-600: #dc2626;
+            --primary-700: #b91c1c;
+            --primary-800: #991b1b;
+            --primary-900: #7f1d1d;
+            
+            /* Secondary color palette */
+            --secondary-50: #f0f9ff;
+            --secondary-100: #e0f2fe;
+            --secondary-200: #bae6fd;
+            --secondary-300: #7dd3fc;
+            --secondary-400: #38bdf8;
+            --secondary-500: #0ea5e9;
+            --secondary-600: #0284c7;
+            --secondary-700: #0369a1;
+            --secondary-800: #075985;
+            --secondary-900: #0c4a6e;
+            
+            /* Semantic color tokens */
+            --color-background: #ffffff;
+            --color-surface: #f8fafc;
+            --color-surface-elevated: #ffffff;
+            --color-border: #e2e8f0;
+            --color-border-subtle: #f1f5f9;
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #64748b;
+            --color-text-tertiary: #94a3b8;
+            --color-text-inverse: #ffffff;
+            
+            /* Typography scale */
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-primary);
+            background-color: var(--color-background);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+        }
+
+        .preloader .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--primary-100);
+            border-top: 4px solid var(--primary-600);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <i class="fas fa-ambulance fa-4x" style="color: var(--primary-500);"></i>
+            </div>
+            <div class="preloader-spinner"></div>
+            <div class="preloader-text">Loading eAmbulance...</div>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js" class="particles-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-ambulance me-2"></i>
+                <span>Life</span>Link
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#feedback">Feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sitemap">Sitemap</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content" data-aos="fade-right">
+                        <h1 class="hero-title">Emergency Medical Services at Your Fingertips</h1>
+                        <p class="hero-subtitle">Fast, reliable, and professional eAmbulance services available 24/7 across multiple cities.</p>
+                        <div class="hero-buttons">
+                            <a href="#search" class="btn btn-primary btn-lg me-3">Find eAmbulance</a>
+                            <a href="#about" class="btn btn-outline-primary btn-lg">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image" data-aos="fade-left">
+                        <img src="https://placehold.co/600x400/1d3557/ffffff?text=eAmbulance+Service" alt="eAmbulance Service" class="img-fluid rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search" class="search-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="search-container bg-white rounded-lg shadow p-4" data-aos="fade-up">
+                        <h2 class="section-title text-center mb-4">Find an eAmbulance</h2>
+                        <div class="search-form">
+                            <div class="row g-3">
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                        <input type="text" class="form-control" id="location-search" placeholder="Enter location (e.g., Chicago)">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select" id="ambulance-type">
+                                        <option selected>Select eAmbulance Type</option>
+                                        <option value="basic">Basic Life Support</option>
+                                        <option value="advanced">Advanced Life Support</option>
+                                        <option value="icu">ICU Ambulance</option>
+                                        <option value="iccu">ICCU Ambulance</option>
+                                        <option value="ac">A/C Ambulance</option>
+                                        <option value="nonac">Non-A/C Ambulance</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary w-100" id="search-btn">Search</button>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="filter-price" value="price">
+                                            <label class="form-check-label" for="filter-price">Filter by Price</label>
+                                        </div>
+                                        <div class="price-range-slider mt-2 d-none" id="price-range-container">
+                                            <input type="range" class="form-range" min="0" max="100" id="price-range">
+                                            <div class="d-flex justify-content-between">
+                                                <span>$0</span>
+                                                <span id="price-value">$50</span>
+                                                <span>$100</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="sort-price" value="sort">
+                                            <label class="form-check-label" for="sort-price">Sort by Price</label>
+                                        </div>
+                                        <select class="form-select mt-2 d-none" id="sort-order">
+                                            <option value="low-high">Low to High</option>
+                                            <option value="high-low">High to Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="results-section py-5 d-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title mb-4">Available eAmbulances</h2>
+                    <div class="results-count mb-3">
+                        <span id="results-number">0</span> eAmbulances found
+                    </div>
+                    <div class="ambulance-results" id="ambulance-results">
+                        <!-- Results will be populated here via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h2 class="section-title mb-4">About eAmbulance</h2>
+                    <p class="section-description">eAmbulance is a pioneering emergency medical service provider that leverages technology to deliver fast, reliable, and professional ambulance services across multiple cities.</p>
+                    <p>Our mission is to revolutionize emergency medical transportation by providing immediate access to life-saving services through our innovative platform.</p>
+                    <div class="stats-container mt-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stat-item text-center">
+                                    <h3 class="stat-number">25+</h3>
+                                    <p class="stat-label">Cities Served</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-item text-center">
+                                    <h3 class="stat-number">500+</h3>
+                                    <p class="stat-label">Ambulances</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-item text-center">
+                                    <h3 class="stat-number">24/7</h3>
+                                    <p class="stat-label">Service</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4>Top Performing Regions</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Chicago
+                                <span class="badge bg-primary rounded-pill">98% Response Rate</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                New York
+                                <span class="badge bg-primary rounded-pill">96% Response Rate</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Los Angeles
+                                <span class="badge bg-primary rounded-pill">95% Response Rate</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-image mt-4 mt-lg-0">
+                        <img src="https://placehold.co/600x400/1d3557/ffffff?text=About+eAmbulance" alt="About eAmbulance" class="img-fluid rounded-lg shadow">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">eAmbulance Gallery</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/e63946/ffffff?text=Basic+Life+Support" alt="Ambulance Type 1" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>Basic Life Support Ambulance</h4>
+                                <p>Equipped with essential medical supplies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/1d3557/ffffff?text=Advanced+Life+Support" alt="Ambulance Type 2" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>Advanced Life Support Ambulance</h4>
+                                <p>Fully equipped for critical care</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/457b9d/ffffff?text=ICU+Ambulance" alt="Ambulance Type 3" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>ICU Ambulance</h4>
+                                <p>Mobile intensive care unit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/a8dadc/000000?text=ICCU+Ambulance" alt="Ambulance Type 4" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>ICCU Ambulance</h4>
+                                <p>Specialized cardiac care unit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/f4a261/000000?text=A/C+Ambulance" alt="Ambulance Type 5" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>A/C Ambulance</h4>
+                                <p>Climate controlled for patient comfort</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/400x300/e9c46a/000000?text=Non-A/C+Ambulance" alt="Ambulance Type 6" class="img-fluid rounded">
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <h4>Non-A/C Ambulance</h4>
+                                <p>Standard emergency transport</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">eAmbulance Types</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-ambulance"></i>
+                                </div>
+                                <h3 class="service-title">Basic Life Support</h3>
+                                <p class="service-description">Equipped with essential medical supplies for basic emergency care.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> First aid equipment</li>
+                                    <li><i class="fas fa-check-circle"></i> Oxygen supply</li>
+                                    <li><i class="fas fa-check-circle"></i> Basic medications</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$25</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <h3 class="service-title">Advanced Life Support</h3>
+                                <p class="service-description">Fully equipped for critical care and advanced medical interventions.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Advanced cardiac equipment</li>
+                                    <li><i class="fas fa-check-circle"></i> Ventilator</li>
+                                    <li><i class="fas fa-check-circle"></i> Advanced medications</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$45</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-procedures"></i>
+                                </div>
+                                <h3 class="service-title">ICU Ambulance</h3>
+                                <p class="service-description">Mobile intensive care unit with advanced life support capabilities.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> ICU monitoring equipment</li>
+                                    <li><i class="fas fa-check-circle"></i> Critical care medications</li>
+                                    <li><i class="fas fa-check-circle"></i> Specialized medical team</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$75</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h3 class="service-title">ICCU Ambulance</h3>
+                                <p class="service-description">Specialized cardiac care unit for heart-related emergencies.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Cardiac monitoring</li>
+                                    <li><i class="fas fa-check-circle"></i> Defibrillator</li>
+                                    <li><i class="fas fa-check-circle"></i> Cardiac medications</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$85</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-snowflake"></i>
+                                </div>
+                                <h3 class="service-title">A/C Ambulance</h3>
+                                <p class="service-description">Climate-controlled ambulance for patient comfort during transport.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Air conditioning</li>
+                                    <li><i class="fas fa-check-circle"></i> Temperature control</li>
+                                    <li><i class="fas fa-check-circle"></i> Patient comfort features</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$35</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card h-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="service-icon mb-3">
+                                    <i class="fas fa-ambulance"></i>
+                                </div>
+                                <h3 class="service-title">Non-A/C Ambulance</h3>
+                                <p class="service-description">Standard emergency transport without climate control.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Basic equipment</li>
+                                    <li><i class="fas fa-check-circle"></i> Standard transport</li>
+                                    <li><i class="fas fa-check-circle"></i> Cost-effective option</li>
+                                </ul>
+                                <div class="service-price">
+                                    <span class="price">$20</span> per trip
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="feedback-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="section-title text-center mb-5" data-aos="fade-up">Your Feedback Matters</h2>
+                    <div class="feedback-form bg-white p-4 rounded shadow" data-aos="fade-up">
+                        <form id="feedback-form">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rate Your Experience</label>
+                                <div class="rating-stars">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" id="rating" value="0">
+                            </div>
+                            <div class="mb-3">
+                                <label for="feedback-message" class="form-label">Your Feedback</label>
+                                <textarea class="form-control" id="feedback-message" rows="5" placeholder="Please share your experience with our service" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit Feedback</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Contact Us</h2>
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="contact-info bg-white p-4 rounded shadow h-100">
+                        <h3 class="mb-4">Get in Touch</h3>
+                        <div class="contact-item mb-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>123 Emergency Lane, Medical District, Chicago, IL 60612</span>
+                        </div>
+                        <div class="contact-item mb-3">
+                            <i class="fas fa-phone me-2"></i>
+                            <span>Emergency: <a href="tel:911">911</a></span>
+                        </div>
+                        <div class="contact-item mb-3">
+                            <i class="fas fa-phone-alt me-2"></i>
+                            <span>Hotline: <a href="tel:+18001234567">1-800-123-4567</a></span>
+                        </div>
+                        <div class="contact-item mb-3">
+                            <i class="fas fa-envelope me-2"></i>
+                            <span><a href="mailto:info@eambulance.com">info@eambulance.com</a></span>
+                        </div>
+                        <div class="contact-item mb-3">
+                            <i class="fas fa-clock me-2"></i>
+                            <span>Available: 24/7, 365 days</span>
+                        </div>
+                        <div class="social-links mt-4">
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0" data-aos="fade-left">
+                    <div class="contact-map bg-white p-4 rounded shadow h-100">
+                        <h3 class="mb-4">Our Location</h3>
+                        <div class="map-container">
+                            <!-- Google Maps iframe -->
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.1230549251296!2d-87.62979548418828!3d41.87864087922149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2ca3e2d9b695%3A0x4c7a4a20850b10e7!2sChicago%2C%20IL%2C%20USA!5e0!3m2!1sen!2sin!4v1620456523000!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded"></iframe>
+                        </div>
+                        <div class="mt-4">
+                            <h4>Service Areas</h4>
+                            <p>We currently serve the following major cities and surrounding areas:</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>Chicago</li>
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>New York</li>
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>Los Angeles</li>
+                                    </ul>
+                                </div>
+                                <div class="col-6">
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>Houston</li>
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>Miami</li>
+                                        <li><i class="fas fa-check-circle text-primary me-2"></i>Boston</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request Ambulance Modal -->
+    <div class="modal fade" id="requestAmbulanceModal" tabindex="-1" aria-labelledby="requestAmbulanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="requestAmbulanceModalLabel">Request Ambulance</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="ambulance-image-container text-center">
+                                <img id="requestAmbulanceImage" src="" alt="Ambulance Image" class="img-fluid rounded mb-3">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 id="requestAmbulanceName" class="mb-2"></h4>
+                            <p id="requestAmbulanceLocation" class="mb-2"><i class="fas fa-map-marker-alt me-2"></i><span></span></p>
+                            <p id="requestAmbulancePrice" class="mb-2"><i class="fas fa-tag me-2"></i>$<span></span>/hour</p>
+                            <div id="requestAmbulanceFeatures" class="mb-3">
+                                <p class="mb-1"><strong>Features:</strong></p>
+                                <ul class="list-unstyled feature-list">
+                                    <!-- Features will be populated dynamically -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="requestAmbulanceForm" novalidate>
+                        <input type="hidden" id="ambulanceId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="requestName" class="form-label">Full Name*</label>
+                                <input type="text" class="form-control" id="requestName" required>
+                                <div class="invalid-feedback">Please enter your full name</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="requestPhone" class="form-label">Phone Number*</label>
+                                <input type="tel" class="form-control" id="requestPhone" required pattern="[0-9]{10}">
+                                <div class="invalid-feedback">Please enter a valid 10-digit phone number</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="requestEmail" class="form-label">Email Address*</label>
+                                <input type="email" class="form-control" id="requestEmail" required>
+                                <div class="invalid-feedback">Please enter a valid email address</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="requestDate" class="form-label">Date Needed*</label>
+                                <input type="date" class="form-control" id="requestDate" required min="">
+                                <div class="invalid-feedback">Please select a valid date</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="requestTime" class="form-label">Time Needed*</label>
+                                <input type="time" class="form-control" id="requestTime" required>
+                                <div class="invalid-feedback">Please select a time</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="requestDuration" class="form-label">Estimated Duration (hours)*</label>
+                                <input type="number" class="form-control" id="requestDuration" min="1" max="24" required>
+                                <div class="invalid-feedback">Please enter a duration between 1-24 hours</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="requestAddress" class="form-label">Pickup Address*</label>
+                            <textarea class="form-control" id="requestAddress" rows="2" required></textarea>
+                            <div class="invalid-feedback">Please enter the pickup address</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="requestNotes" class="form-label">Additional Notes</label>
+                            <textarea class="form-control" id="requestNotes" rows="3"></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="requestTerms" required>
+                            <label class="form-check-label" for="requestTerms">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a>*
+                            </label>
+                            <div class="invalid-feedback">You must agree to the terms and conditions</div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Service Agreement</h6>
+                    <p>By requesting an ambulance through our service, you agree to the terms and conditions outlined in this document. Our ambulance service is provided on an as-available basis and subject to medical necessity and priority.</p>
+                    
+                    <h6>2. Medical Information</h6>
+                    <p>You agree to provide accurate and complete medical information as required for proper care. Failure to disclose relevant medical information may impact the quality of care provided.</p>
+                    
+                    <h6>3. Payment Terms</h6>
+                    <p>Payment is due at the time of service unless alternative arrangements have been made. We accept most major insurance plans, but coverage varies. You are responsible for any charges not covered by insurance.</p>
+                    
+                    <h6>4. Cancellation Policy</h6>
+                    <p>Please provide at least 2 hours notice for non-emergency cancellations. Failure to provide adequate notice may result in a cancellation fee.</p>
+                    
+                    <h6>5. Liability</h6>
+                    <p>While we strive to provide the highest quality care, we cannot guarantee specific outcomes. By using our service, you acknowledge the inherent risks associated with medical transport and care.</p>
+                    
+                    <h6>6. Privacy Policy</h6>
+                    <p>We respect your privacy and handle all information in accordance with HIPAA regulations. Your information will only be used for providing care and related administrative purposes.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sitemap Section -->
+    <section id="sitemap" class="sitemap-section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" data-aos="fade-up">Sitemap</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="sitemap-container bg-white p-4 rounded shadow" data-aos="fade-up">
+                        <div class="sitemap-diagram">
+                            <div class="sitemap-item main-item">
+                                <a href="#home">Home</a>
+                                <div class="sitemap-children">
+                                    <div class="sitemap-item">
+                                        <a href="#search">Search</a>
+                                    </div>
+                                    <div class="sitemap-item">
+                                        <a href="#about">About Us</a>
+                                    </div>
+                                    <div class="sitemap-item">
+                                        <a href="#gallery">Gallery</a>
+                                    </div>
+                                    <div class="sitemap-item">
+                                        <a href="#services">eAmbulance Types</a>
+                                    </div>
+                                    <div class="sitemap-item">
+                                        <a href="#feedback">Feedback</a>
+                                    </div>
+                                    <div class="sitemap-item">
+                                        <a href="#contact">Contact</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="footer-brand mb-3">
+                        <i class="fas fa-ambulance me-2"></i>
+                        <span>e</span>Ambulance
+                    </div>
+                    <p class="footer-description">Emergency medical services at your fingertips. Fast, reliable, and professional eAmbulance services available 24/7.</p>
+                    <div class="footer-social mt-3">
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-heading">Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#services">Basic Life Support</a></li>
+                        <li><a href="#services">Advanced Life Support</a></li>
+                        <li><a href="#services">ICU Ambulance</a></li>
+                        <li><a href="#services">ICCU Ambulance</a></li>
+                        <li><a href="#services">A/C Ambulance</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="footer-heading">Contact Info</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Emergency Lane, Chicago, IL 60612</li>
+                        <li><i class="fas fa-phone"></i> Emergency: 911</li>
+                        <li><i class="fas fa-phone-alt"></i> Hotline: 1-800-123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@eambulance.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="copyright">© 2023 eAmbulance. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-links-bottom">
+                        <a href="#">Privacy Policy</a> | 
+                        <a href="#">Terms of Service</a> | 
+                        <a href="#sitemap">Sitemap</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Animation Libraries -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="eAmbulance.js"></script>
+</body>
+</html>
